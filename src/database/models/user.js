@@ -1,5 +1,4 @@
 import { DataTypes, Model } from 'sequelize';
-
 import { tokenHelper } from '@/helpers';
 
 export default function (sequelize) {
@@ -13,29 +12,31 @@ export default function (sequelize) {
       return tokenHelper.generateToken(data, expiresIn);
     }
   }
-
-  User.init({
-    firstName: {
-      type: DataTypes.STRING(30),
-      allowNull: false,
+  User.init(
+    {
+      firstName: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+      },
+      lastName: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    lastName: {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  }, {
-    modelName: 'user',
-    sequelize,
-  });
+    {
+      modelName: 'user',
+      sequelize,
+    }
+  );
 
   return User;
 }

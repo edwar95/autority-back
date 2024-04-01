@@ -13,9 +13,7 @@ const sequelizeConfig = config[env];
 const sequelize = new Sequelize(sequelizeConfig);
 
 // Import all model files
-const modelDefiners = [
-  userModel,
-];
+const modelDefiners = [userModel];
 
 // eslint-disable-next-line no-restricted-syntax
 for (const modelDefiner of modelDefiners) {
@@ -23,11 +21,10 @@ for (const modelDefiner of modelDefiners) {
 }
 
 // Associations
-Object.keys(sequelize.models)
-  .forEach((modelName) => {
-    if (sequelize.models[modelName].associate) {
-      sequelize.models[modelName].associate(sequelize.models);
-    }
-  });
+Object.keys(sequelize.models).forEach((modelName) => {
+  if (sequelize.models[modelName].associate) {
+    sequelize.models[modelName].associate(sequelize.models);
+  }
+});
 
 export default sequelize;

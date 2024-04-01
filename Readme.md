@@ -47,6 +47,11 @@ Install the project dependencies:
 npm install
 ```
 
+Start the db
+```
+docker-compose up
+```
+
 Start the dev server
 
 ```bash

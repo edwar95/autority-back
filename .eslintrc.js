@@ -1,26 +1,25 @@
 module.exports = {
-    env: {
-        es6: true,
-        node: true,
+  env: {
+    es6: true,
+    node: true,
+  },
+  extends: ['airbnb-base', 'prettier'],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  settings: {
+    'import/resolver': {
+      'babel-module': {},
     },
-    extends: [
-        'airbnb-base',
-    ],
-    globals: {
-        Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly',
-    },
-    settings: {
-        'import/resolver': {
-            'babel-module': {},
-        },
-    },
-    parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: 'module',
-    },
-    rules: {
-        'max-len': ['error', { code: 120 }],
-        'no-eval': 'off',
-    },
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  rules: {
+    'line-break-style': 'off',
+    'max-len': ['error', { code: 120 }],
+    'no-eval': 'off',
+  },
 };

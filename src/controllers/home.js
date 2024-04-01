@@ -8,7 +8,7 @@ export const index = (req, res) => res.send('Hello World!');
 
 /**
  * GET /health
- * Health check
+ *  * Health check
  */
 export const healthCheck = async (req, res) => {
   const users = await db.models.user.findAll();
