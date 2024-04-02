@@ -1,5 +1,5 @@
-import corsConfig from './cors';
-import routerConfig from './router';
-import compressionConfig from './compression';
+import corsConfig from './cors.js';
+import routerConfig from './router.js';
+import compressionConfig from './compression.js';
 
 export { corsConfig, routerConfig, compressionConfig };

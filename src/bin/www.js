@@ -8,9 +8,9 @@
 
 import http from 'http';
 import debugLib from 'debug';
-import app from '@/app';
-import db from '@/database';
-
+import app from '../app.js';
+import { sequelize } from '../database/database.js';
+import '../database/models/task.js';
 /**
  * Start debug library
  */
@@ -30,18 +30,16 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-db.authenticate()
+sequelize
+  .sync()
   .then(() => {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
+    console.log('Connection has been established successfully.');
   })
   .catch((err) => {
-    console.error('Database connection error', err);
+    console.error('Unable to connect to the database:', err);
   });
 
 /**

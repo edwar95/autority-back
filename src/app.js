@@ -7,7 +7,7 @@ import compression from 'compression';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 
-import * as configs from '@/config';
+import * as configs from './config/index.js';
 
 const app = express();
 

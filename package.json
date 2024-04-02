@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "name": "autority-api-challenge",
   "version": "1.0.0",
   "description": "Boilerplate for api to Autority challenge",
@@ -27,7 +28,8 @@
     "nodemailer": "^6.4.16",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.20.1"
+    "sequelize": "^6.20.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

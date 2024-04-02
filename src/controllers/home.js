@@ -1,4 +1,4 @@
-import db from '@/database';
+import * as db from '../database/database.js';
 
 /**
  * GET /
