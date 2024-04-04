@@ -57,6 +57,8 @@ router.route('/:id').get(async (req, res) => {
 router.route('/:id').put(async (req, res) => {
   const id = req.params.id;
   const { name, description, author, isComplete } = req.body;
+
+  console.log('body', req);
   try {
     const task = await updateTask(id, {
       name,

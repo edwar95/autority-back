@@ -45,10 +45,10 @@ export const updateTask = async (id, { name, description, author, isComplete }) 
     throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
   }
 
-  task.name = name || task.name;
-  task.description = description || task.description;
-  task.author = author || task.author;
-  task.isComplete = isComplete || task.isComplete;
+  task.name = name;
+  task.description = description;
+  task.author = author;
+  task.isComplete = isComplete;
 
   await task.save({
     attributes: ['id', 'name', 'description', 'author', 'isComplete'],
