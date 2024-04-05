@@ -1,14 +1,15 @@
-import express, { response } from 'express';
-import { createTask, getAllTasks, getTaskById, updateTask, deleteTask } from '../services/taskService.js';
+import express from 'express';
+import { TaskService } from '../services/taskService.js';
 import { ERROR_MESSAGES } from '../constants.js';
 
 const router = express.Router();
 
 router.route('/').post(async (req, res) => {
   const { name, description, author, isComplete } = req.body;
+  const taskService = new TaskService();
 
   try {
-    const newTask = await createTask({
+    const newTask = await taskService.createTask({
       name,
       description,
       author,
@@ -22,7 +23,6 @@ router.route('/').post(async (req, res) => {
       author: newTask.author,
       isComplete: newTask.isComplete,
     };
-
     res.status(201).json(resTask);
   } catch (error) {
     return res.status(500).json(error.message);
@@ -30,8 +30,9 @@ router.route('/').post(async (req, res) => {
 });
 
 router.route('/').get(async (req, res) => {
+  const taskService = new TaskService();
   try {
-    const tasks = await getAllTasks();
+    const tasks = await taskService.getAllTasks();
 
     res.status(200).json(tasks);
   } catch (error) {
@@ -41,15 +42,15 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   const id = req.params.id;
+  const taskService = new TaskService();
   try {
-    const task = await getTaskById(id);
+    const task = await taskService.getTaskById(id);
 
     res.status(200).json(task);
   } catch (error) {
     if (error.message === ERROR_MESSAGES.TASK_NOT_FOUND) {
       return res.status(404).json(ERROR_MESSAGES.TASK_NOT_FOUND);
     }
-    console.error(error);
     return res.status(500).json(ERROR_MESSAGES.ERROR_GETTING_TASK);
   }
 });
@@ -57,10 +58,10 @@ router.route('/:id').get(async (req, res) => {
 router.route('/:id').put(async (req, res) => {
   const id = req.params.id;
   const { name, description, author, isComplete } = req.body;
+  const taskService = new TaskService();
 
-  console.log('body', req);
   try {
-    const task = await updateTask(id, {
+    const task = await taskService.updateTask(id, {
       name,
       description,
       author,
@@ -79,22 +80,22 @@ router.route('/:id').put(async (req, res) => {
     if (error.message === ERROR_MESSAGES.TASK_NOT_FOUND) {
       return res.status(404).json(ERROR_MESSAGES.TASK_NOT_FOUND);
     }
-    console.error(error);
     return res.status(500).json(ERROR_MESSAGES.ERROR_UPDATING_TASK);
   }
 });
 
 router.route('/:id').delete(async (req, res) => {
   const id = req.params.id;
+  const taskService = new TaskService();
   try {
-    const task = await deleteTask(id);
+    const task = await taskService.deleteTask(id);
 
     res.status(200).json(task);
   } catch (error) {
     if (error.message === ERROR_MESSAGES.TASK_NOT_FOUND) {
       return res.status(404).json(ERROR_MESSAGES.TASK_NOT_FOUND);
     }
-    return res.status(500).json(messages.ERROR_DELETING_TASK);
+    return res.status(500).json(ERROR_MESSAGES.ERROR_DELETING_TASK);
   }
 });
 

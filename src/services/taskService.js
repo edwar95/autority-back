@@ -1,74 +1,77 @@
 import { ERROR_MESSAGES } from '../constants.js';
 import { Task } from '../database/models/task.js';
 
-export const createTask = async ({ name, description, author, isComplete }) => {
-  try {
-    const newTask = await Task.create({
-      name,
-      description,
-      author,
-      isComplete,
+export class TaskService {
+
+  async createTask  ({ name, description, author, isComplete }) {
+    try {
+      const newTask = await Task.create({
+        name,
+        description,
+        author,
+        isComplete,
+      });
+      return newTask;
+    } catch (error) {
+      throw new Error(error.message || ERROR_MESSAGES.ERROR_CREATING_TASK);
+    }
+  };
+
+  async getAllTasks () {
+    const tasks = await Task.findAll({
+      attributes: ['id', 'name', 'description', 'author', 'isComplete'],
+      order: [['id', 'ASC']],
     });
 
-    return newTask;
-  } catch (error) {
-    throw new Error(error.message || ERROR_MESSAGES.ERROR_CREATING_TASK);
-  }
-};
+    return tasks;
+  };
 
-export const getAllTasks = async () => {
-  const tasks = await Task.findAll({
-    attributes: ['id', 'name', 'description', 'author', 'isComplete'],
-    order: [['id', 'ASC']],
-  });
+  async getTaskById (id) {
+    const task = await Task.findByPk(id, {
+      attributes: ['id', 'name', 'description', 'author', 'isComplete'],
+      order: [['id', 'ASC']],
+    });
 
-  return tasks;
-};
+    if (!task) {
+      throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
+    }
 
-export const getTaskById = async (id) => {
-  const task = await Task.findByPk(id, {
-    attributes: ['id', 'name', 'description', 'author', 'isComplete'],
-    order: [['id', 'ASC']],
-  });
+    return task;
+  };
 
-  if (!task) {
-    throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
-  }
+  async updateTask  (id, { name, description, author, isComplete }) {
+    const task = await Task.findByPk(id);
 
-  return task;
-};
+    if (!task) {
+      throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
+    }
 
-export const updateTask = async (id, { name, description, author, isComplete }) => {
-  const task = await Task.findByPk(id);
+    task.name = name;
+    task.description = description;
+    task.author = author;
+    task.isComplete = isComplete;
 
-  if (!task) {
-    throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
-  }
+    await task.save({
+      attributes: ['id', 'name', 'description', 'author', 'isComplete'],
+      order: [['id', 'ASC']],
+    });
 
-  task.name = name;
-  task.description = description;
-  task.author = author;
-  task.isComplete = isComplete;
+    return task;
+  };
 
-  await task.save({
-    attributes: ['id', 'name', 'description', 'author', 'isComplete'],
-    order: [['id', 'ASC']],
-  });
+  async deleteTask (id) {
+    const task = await Task.findByPk(id, {
+      attributes: ['id', 'name', 'description', 'author', 'isComplete'],
+      order: [['id', 'ASC']],
+    });
 
-  return task;
-};
+    if (!task) {
+      throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
+    }
 
-export const deleteTask = async (id) => {
-  const task = await Task.findByPk(id, {
-    attributes: ['id', 'name', 'description', 'author', 'isComplete'],
-    order: [['id', 'ASC']],
-  });
+    await task.destroy();
 
-  if (!task) {
-    throw new Error(ERROR_MESSAGES.TASK_NOT_FOUND);
-  }
+    return task;
+  };
+}
 
-  await task.destroy();
-
-  return task;
-};

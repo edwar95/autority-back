@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "cache": false,
+  "include": [
+    "src/controllers/*.js",
+    "src/services/*.js"
+  ],
+  "exclude": [
+    "**/*.test.js",
+    "src/controllers/home.js"
+  ]
+}
